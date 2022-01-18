@@ -1,6 +1,7 @@
 import re
 from abc import ABC, abstractmethod
 from typing import Tuple
+from math import radians, cos, sin, asin, sqrt
 
 import fiona
 import matplotlib.pyplot as plt
@@ -56,7 +57,8 @@ class GraphGenerator(AbstractGraphGenerator):
                         cur_id += 1
                         graph.add_node(coordinates_points[pos], pos=pos)
                 for start, end in zip(coords, coords[1:]):
-                    graph.add_edge(coordinates_points[start], coordinates_points[end])
+                    edge_len = GraphGenerator.haversine(*start, *end)
+                    graph.add_edge(coordinates_points[start], coordinates_points[end], length=edge_len)
         return graph
 
     def create_from_official(self, path: str) -> nx.Graph:
@@ -114,3 +116,20 @@ class GraphGenerator(AbstractGraphGenerator):
         if coords[1] > NORTH_LIM or coords[1] < SOUTH_LIM:
             return False
         return True
+    
+    @staticmethod
+    def haversine(lon1, lat1, lon2, lat2):
+        """
+        Calculate the great circle distance in kilometers between two points 
+        on the earth (specified in decimal degrees)
+        """
+        # convert decimal degrees to radians 
+        lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
+
+        # haversine formula 
+        dlon = lon2 - lon1 
+        dlat = lat2 - lat1 
+        a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
+        c = 2 * asin(sqrt(a)) 
+        r = 6371 # Radius of earth in kilometers. Use 3956 for miles. Determines return value units.
+        return c * r
