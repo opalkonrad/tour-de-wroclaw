@@ -1,9 +1,15 @@
 import re
 from abc import ABC, abstractmethod
+from typing import Tuple
 
 import fiona
 import matplotlib.pyplot as plt
 import networkx as nx
+
+NORTH_LIM = 51.27
+SOUTH_LIM = 50.94
+WEST_LIM = 16.70
+EAST_LIM = 17.38
 
 
 class AbstractGraphGenerator(ABC):
@@ -83,10 +89,10 @@ class GraphGenerator(AbstractGraphGenerator):
                 attraction = re.search(fr'"tourism"=>"({accepted_attractions})"', other_tags)
                 if attraction:
                     coords = feature['geometry']['coordinates'] if feature['geometry'] else None
-                    if coords not in coordinates_points:
+                    if coords not in coordinates_points and GraphGenerator.in_scope(coords):
                         coordinates_points[coords] = cur_id
                         cur_id += 1
-                        graph.add_node(coordinates_points[coords], pos=coords)
+                        graph.add_node(coordinates_points[coords], pos=coords, name=feature["properties"]["name"])
         return graph
 
     def read_graph(self, path: str) -> nx.Graph:
@@ -100,3 +106,11 @@ class GraphGenerator(AbstractGraphGenerator):
         pos = nx.get_node_attributes(graph, 'pos')
         nx.draw(graph, pos)
         plt.show()
+    
+    @staticmethod
+    def in_scope(coords: Tuple[float, float]) -> bool:
+        if coords[0] > EAST_LIM or coords[0] < WEST_LIM:
+            return False
+        if coords[1] > NORTH_LIM or coords[1] < SOUTH_LIM:
+            return False
+        return True
