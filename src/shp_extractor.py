@@ -1,8 +1,8 @@
 import argparse
 from pathlib import Path
 
-from graph import GraphGenerator
 from algorithm.join import join_attractions
+from graph import GraphGenerator
 
 
 def get_parser() -> argparse.ArgumentParser:
@@ -30,7 +30,7 @@ if __name__ == "__main__":
             graph_generator.show_graph(osm_graph)
         graph_generator.save_graph(osm_graph, output_path / "roads")
     else:
-        osm_graph = GraphGenerator().read_graph(output_path /"roads")
+        osm_graph = GraphGenerator().read_graph(output_path / "roads")
 
     if args.osm_points:
         attractions = graph_generator.get_attractions(args.osm_points)
@@ -47,7 +47,7 @@ if __name__ == "__main__":
         graph_generator.save_graph(official_graph, output_path / "official")
     else:
         official_graph = GraphGenerator().read_graph(output_path / "official")
-    
+
     if args.merge:
         print("Merging graphs. This could take a while")
         roads_w_attractions = join_attractions(osm_graph, attractions)

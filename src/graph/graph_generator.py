@@ -122,7 +122,12 @@ class GraphGenerator(AbstractGraphGenerator):
                     if coords not in coordinates_points and in_scope(coords):
                         coordinates_points[coords] = cur_id
                         cur_id += 1
-                        graph.add_node(coordinates_points[coords], pos=coords, name=feature["properties"]["name"], id=coordinates_points[coords])
+                        graph.add_node(
+                            coordinates_points[coords],
+                            pos=coords,
+                            name=feature["properties"]["name"],
+                            id=coordinates_points[coords],
+                        )
         return graph
 
     def read_graph(self, path: str) -> nx.Graph:
