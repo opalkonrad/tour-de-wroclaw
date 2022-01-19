@@ -1,5 +1,5 @@
 from math import asin, cos, radians, sin, sqrt
-from typing import List, Tuple
+from typing import Any, Dict, List, Tuple
 
 from pyproj import Transformer
 
@@ -8,7 +8,12 @@ SOUTH_LIM = 50.94
 WEST_LIM = 16.70
 EAST_LIM = 17.38
 
+PENALTY_FACTOR = 2.0
+
 transformer = Transformer.from_crs("epsg:2177", "epsg:4326")
+
+
+Vertex = Tuple[int, Dict[str, Any]]
 
 
 def haversine(lon1, lat1, lon2, lat2):

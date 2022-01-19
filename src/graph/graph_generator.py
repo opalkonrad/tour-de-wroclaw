@@ -6,7 +6,7 @@ import fiona
 import matplotlib.pyplot as plt
 import networkx as nx
 
-from .utils import convert_coords_list, haversine, in_scope
+from src.utils import convert_coords_list, haversine, in_scope
 
 
 class AbstractGraphGenerator(ABC):
@@ -122,7 +122,7 @@ class GraphGenerator(AbstractGraphGenerator):
                     if coords not in coordinates_points and in_scope(coords):
                         coordinates_points[coords] = cur_id
                         cur_id += 1
-                        graph.add_node(coordinates_points[coords], pos=coords, name=feature["properties"]["name"])
+                        graph.add_node(coordinates_points[coords], pos=coords, name=feature["properties"]["name"], id=coordinates_points[coords])
         return graph
 
     def read_graph(self, path: str) -> nx.Graph:

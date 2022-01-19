@@ -1,6 +1,6 @@
 import pytest
 
-from src.graph.utils import haversine, convert_epsg, convert_coords_list
+from src.utils import haversine, convert_epsg, convert_coords_list
 
 
 @pytest.mark.parametrize(
