@@ -136,3 +136,5 @@ dmypy.json
 
 # Data folder
 data/
+**.json
+
