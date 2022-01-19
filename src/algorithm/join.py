@@ -1,11 +1,11 @@
-from typing import List, Tuple
+from typing import List, Optional, Tuple
 
 import networkx as nx
 
 from src.utils import Vertex, haversine
 
 
-def closest_vertex(v1: Tuple[float, float], vertices: List[Vertex]) -> Tuple[Vertex, float]:
+def closest_vertex(v1: Tuple[float, float], vertices: List[Vertex]) -> Tuple[Optional[Vertex], float]:
     closest = None
     min_distance = 10e9
     for v in vertices:
