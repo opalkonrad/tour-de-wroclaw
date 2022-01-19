@@ -15,11 +15,11 @@ class AbstractGraphGenerator(ABC):
         return NotImplemented
 
     @abstractmethod
-    def create_from_official(self, path: Path) -> nx.Graph:
+    def create_from_bike_paths(self, path: Path) -> nx.Graph:
         return NotImplemented
 
     @abstractmethod
-    def get_attractions(self, path: Path) -> nx.Graph:
+    def create_from_osm_points(self, path: Path) -> nx.Graph:
         return NotImplemented
 
     @abstractmethod
@@ -81,7 +81,7 @@ class GraphGenerator(AbstractGraphGenerator):
                     graph.add_edge(coordinates_points[start], coordinates_points[end], length=edge_len)
         return graph
 
-    def create_from_official(self, path: Path) -> nx.Graph:
+    def create_from_bike_paths(self, path: Path) -> nx.Graph:
         cur_id = 1
         coordinates_points = {}
         graph = nx.Graph()
@@ -114,7 +114,7 @@ class GraphGenerator(AbstractGraphGenerator):
                 )
         return graph
 
-    def get_attractions(self, path: Path) -> nx.Graph:
+    def create_from_osm_points(self, path: Path) -> nx.Graph:
         cur_id = 1
         coordinates_points = {}
         graph = nx.Graph()
