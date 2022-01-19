@@ -13,3 +13,11 @@ class BikePathType(str, Enum):
     ONLEVEES = "trasa na wałach"
     THRUPARK = "trasa przez park"
     ROADLINK = "łącznik drogow"
+
+
+FULL_BIKE_PATH = [
+    BikePathType.WITHPEDESTRIANS,
+    BikePathType.FULL,
+    BikePathType.ONLEVEES,
+    BikePathType.THRUPARK,
+]
