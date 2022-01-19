@@ -131,7 +131,8 @@ dmypy.json
 # PyCharm
 .idea/
 
-# Data folder
-data/
+# VS Code
 .vscode/
 
+# Data folder
+data/

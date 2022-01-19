@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Tuple
+from typing import List, Tuple
 
 import networkx as nx
 
@@ -13,13 +13,11 @@ def closest_vertex(v1: Tuple[float, float], vertices: List[Vertex]) -> Tuple[Ver
         if distance < min_distance:
             closest = v
             min_distance = distance
-
     return closest, min_distance
 
 
-def add_attraction_to_network(
-    attraction: Vertex, new_id: int, closest: Vertex, distance: float, network: nx.Graph
-) -> None:
+def add_attraction_to_network(attraction: Vertex, new_id: int, closest: Vertex, distance: float,
+                              network: nx.Graph) -> None:
     network.add_node(new_id, **attraction[1])
     network.add_edge(new_id, closest[0], length=distance)
 
@@ -37,5 +35,4 @@ def join_attractions(network: nx.Graph, attractions: nx.Graph) -> nx.Graph:
     for attraction_v, closest_v, distance in to_add:
         add_attraction_to_network(attraction_v, vid, closest_v, distance, network)
         vid = vid + 1
-
     return network

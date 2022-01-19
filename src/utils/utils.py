@@ -3,6 +3,7 @@ from typing import Any, Dict, List, Tuple
 
 from pyproj import Transformer
 
+
 NORTH_LIM = 51.27
 SOUTH_LIM = 50.94
 WEST_LIM = 16.70
@@ -12,7 +13,6 @@ PENALTY_FACTOR = 2.0
 
 transformer = Transformer.from_crs("epsg:2177", "epsg:4326")
 
-
 Vertex = Tuple[int, Dict[str, Any]]
 
 
@@ -21,10 +21,10 @@ def haversine(lon1, lat1, lon2, lat2):
     Calculate the great circle distance in kilometers between two points
     on the earth (specified in decimal degrees)
     """
-    # convert decimal degrees to radians
+    # Convert decimal degrees to radians
     lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
 
-    # haversine formula
+    # Haversine formula
     dlon = lon2 - lon1
     dlat = lat2 - lat1
     a = sin(dlat / 2) ** 2 + cos(lat1) * cos(lat2) * sin(dlon / 2) ** 2
@@ -48,20 +48,3 @@ def in_scope(coords: Tuple[float, float]) -> bool:
     if coords[1] > NORTH_LIM or coords[1] < SOUTH_LIM:
         return False
     return True
-
-
-def get_perp(x1: float, y1: float, x2: float, y2: float, x3: float, y3: float):
-    """************************************************************************************************
-    Purpose - X1,Y1,X2,Y2 = Two points representing the ends of the line segment
-              X3,Y3 = The offset point
-    'Returns - X4,Y4 = Returns the Point on the line perpendicular to the offset or None if no such
-                        point exists
-    '************************************************************************************************"""
-    xx = x2 - x1
-    yy = y2 - y1
-    shortestlength = ((xx * (x3 - x1)) + (yy * (y3 - y1))) / ((xx * xx) + (yy * yy))
-    x4 = x1 + xx * shortestlength
-    y4 = y1 + yy * shortestlength
-    if x4 < x2 and x4 > x1 and y4 < y2 and y4 > y1:
-        return x4, y4
-    return None

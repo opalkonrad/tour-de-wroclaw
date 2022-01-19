@@ -53,5 +53,5 @@ if __name__ == "__main__":
         roads_w_attractions = join_attractions(osm_graph, attractions)
         graph_generator.save_graph(roads_w_attractions, output_path / "roads_w_attractions")
 
-        bikepaths_w_attractions = join_attractions(official_graph, attractions)
-        graph_generator.save_graph(bikepaths_w_attractions, output_path / "roads_w_attractions")
+        bike_paths_w_attractions = join_attractions(official_graph, attractions)
+        graph_generator.save_graph(bike_paths_w_attractions, output_path / "roads_w_attractions")

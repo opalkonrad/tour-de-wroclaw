@@ -1,7 +1,7 @@
 from enum import Enum
 
 
-class BikepathType(str, Enum):
+class BikePathType(str, Enum):
     WITHPEDESTRIANS = "droga dla pieszych i rowerów"
     FULL = "droga dla rowerów"
     CONTRALANE = "kontrapas"

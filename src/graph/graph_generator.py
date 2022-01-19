@@ -1,6 +1,6 @@
 import re
 from abc import ABC, abstractmethod
-from typing import Tuple
+from pathlib import Path
 
 import fiona
 import matplotlib.pyplot as plt
@@ -11,32 +11,29 @@ from src.utils import convert_coords_list, haversine, in_scope
 
 class AbstractGraphGenerator(ABC):
     @abstractmethod
-    def create_from_osm_lines(self, path: str) -> nx.Graph:
+    def create_from_osm_lines(self, path: Path) -> nx.Graph:
         return NotImplemented
 
     @abstractmethod
-    def create_from_official(self, path: str) -> nx.Graph:
+    def create_from_official(self, path: Path) -> nx.Graph:
         return NotImplemented
 
     @abstractmethod
-    def get_attractions(self, path: str) -> nx.Graph:
+    def get_attractions(self, path: Path) -> nx.Graph:
         return NotImplemented
 
     @abstractmethod
-    def read_graph(self, path: str) -> nx.Graph:
+    def read_graph(self, path: Path) -> nx.Graph:
         return NotImplemented
 
     @abstractmethod
-    def save_graph(self, graph: nx.Graph, path: str) -> None:
+    def save_graph(self, graph: nx.Graph, path: Path) -> None:
         pass
 
 
 class GraphGenerator(AbstractGraphGenerator):
     def __init__(self) -> None:
-        pass
-
-    def create_from_osm_lines(self, path: str) -> nx.Graph:
-        accepted_highways = {
+        self.accepted_highways = {
             "secondary",
             "tertiary",
             "unclassified",
@@ -52,6 +49,19 @@ class GraphGenerator(AbstractGraphGenerator):
             "path",
             "cycleway",
         }
+        self.accepted_attractions = {
+            "attraction",
+            "aquarium",
+            "artwork",
+            "gallery",
+            "museum",
+            "picnic_site",
+            "theme_park",
+            "viewpoint",
+            "zoo"
+        }
+
+    def create_from_osm_lines(self, path: Path) -> nx.Graph:
         cur_id = 1
         coordinates_points = {}
         graph = nx.Graph()
@@ -59,7 +69,7 @@ class GraphGenerator(AbstractGraphGenerator):
 
         for feature in file:
             highway_type = feature["properties"]["highway"]
-            if highway_type in accepted_highways:
+            if highway_type in self.accepted_highways:
                 coords = feature["geometry"]["coordinates"] if feature["geometry"] else []
                 for pos in coords:
                     if pos not in coordinates_points:
@@ -69,10 +79,9 @@ class GraphGenerator(AbstractGraphGenerator):
                 for start, end in zip(coords, coords[1:]):
                     edge_len = haversine(*start, *end)
                     graph.add_edge(coordinates_points[start], coordinates_points[end], length=edge_len)
-
         return graph
 
-    def create_from_official(self, path: str) -> nx.Graph:
+    def create_from_official(self, path: Path) -> nx.Graph:
         cur_id = 1
         coordinates_points = {}
         graph = nx.Graph()
@@ -103,11 +112,9 @@ class GraphGenerator(AbstractGraphGenerator):
                     type=path_type,
                     direction=path_direction,
                 )
-
         return graph
 
-    def get_attractions(self, path: str) -> nx.Graph:
-        accepted_attractions = "attraction|aquarium|artwork|gallery|museum|picnic_site|theme_park|viewpoint|zoo"
+    def get_attractions(self, path: Path) -> nx.Graph:
         cur_id = 1
         coordinates_points = {}
         graph = nx.Graph()
@@ -116,7 +123,7 @@ class GraphGenerator(AbstractGraphGenerator):
         for feature in file:
             other_tags = feature["properties"]["other_tags"]
             if other_tags:
-                attraction = re.search(f'"tourism"=>"({accepted_attractions})"', other_tags)
+                attraction = re.search(f'"tourism"=>"({"|".join(self.accepted_attractions)})"', other_tags)
                 if attraction:
                     coords = feature["geometry"]["coordinates"] if feature["geometry"] else None
                     if coords not in coordinates_points and in_scope(coords):
@@ -130,10 +137,10 @@ class GraphGenerator(AbstractGraphGenerator):
                         )
         return graph
 
-    def read_graph(self, path: str) -> nx.Graph:
+    def read_graph(self, path: Path) -> nx.Graph:
         return nx.read_gpickle(path)
 
-    def save_graph(self, graph: nx.Graph, path: str) -> None:
+    def save_graph(self, graph: nx.Graph, path: Path) -> None:
         nx.write_gpickle(graph, path)
 
     @staticmethod

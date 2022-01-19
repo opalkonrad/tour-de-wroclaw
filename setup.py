@@ -1,5 +1,6 @@
 from distutils.core import setup
 
+
 setup(
     name="tdw",
     version="1.0",
@@ -11,5 +12,9 @@ setup(
         "tdw": "src",
         "tdw.graph": "src/graph",
     },
-    requires=["networkx", "Fiona", "matplotlib"],
+    requires=[
+        "Fiona",
+        "matplotlib",
+        "networkx"
+    ],
 )
