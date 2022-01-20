@@ -50,7 +50,6 @@ class GraphGenerator(AbstractGraphGenerator):
             "cycleway",
         }
         self.accepted_attractions = {
-            "attraction",
             "aquarium",
             "artwork",
             "gallery",

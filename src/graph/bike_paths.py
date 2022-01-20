@@ -2,22 +2,27 @@ from enum import Enum
 
 
 class BikePathType(str, Enum):
-    WITHPEDESTRIANS = "droga dla pieszych i rowerów"
-    FULL = "droga dla rowerów"
-    CONTRALANE = "kontrapas"
-    CONTRAFLOW = "kontraruch"
-    CANRIDE = "możliwość przejazdu"
-    WBUS = "pas BUS + ROWER"
     BIKELANE = "pas ruchu dla rowerów"
     CALMFLOW = "strefa ruchu uspokojonego 20 i 30 km/h"
+    CANRIDE = "możliwość przejazdu"
+    CONTRAFLOW = "kontraruch"
+    CONTRALANE = "kontrapas"
+    FULL = "droga dla rowerów"
     ONLEVEES = "trasa na wałach"
-    THRUPARK = "trasa przez park"
     ROADLINK = "łącznik drogow"
+    THRUPARK = "trasa przez park"
+    WBUS = "pas BUS + ROWER"
+    WITHPEDESTRIANS = "droga dla pieszych i rowerów"
 
 
 FULL_BIKE_PATH = [
-    BikePathType.WITHPEDESTRIANS,
+    BikePathType.BIKELANE,
+    BikePathType.CALMFLOW,
+    BikePathType.CONTRAFLOW,
+    BikePathType.CONTRALANE,
     BikePathType.FULL,
     BikePathType.ONLEVEES,
     BikePathType.THRUPARK,
+    BikePathType.WBUS,
+    BikePathType.WITHPEDESTRIANS
 ]
