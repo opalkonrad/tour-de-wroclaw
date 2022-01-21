@@ -2,7 +2,7 @@ import pytest
 import networkx as nx
 
 from src.algorithm.filter_graphs import filter_bike_paths
-from src.graph.bike_paths import BikePathType, FULL_BIKE_PATH
+from src.graph.bike_paths import BikePathType, WHITE_LIST
 
 
 @pytest.fixture
@@ -25,14 +25,9 @@ def sample_bike_path_graph():
 
 
 def test_filtering(sample_bike_path_graph):
-    expected_edges = [
-        (1, 2),
-        (2, 3),
-        (9, 10),
-        (10, 11),
-    ]
+    expected_edges = [(1, 2), (2, 3), (5, 6), (7, 8), (8, 9), (9, 10), (10, 11)]
 
-    filtered = filter_bike_paths(sample_bike_path_graph, whitelist=FULL_BIKE_PATH)
+    filtered = filter_bike_paths(sample_bike_path_graph, whitelist=WHITE_LIST)
 
     assert list(filtered.edges.keys()) == expected_edges
     assert list(filtered.nodes.keys()) == list(sample_bike_path_graph.nodes.keys())

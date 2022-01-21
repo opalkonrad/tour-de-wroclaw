@@ -4,7 +4,7 @@ import networkx as nx
 from networkx.algorithms.shortest_paths.astar import astar_path
 from networkx.classes.function import path_weight
 
-from src.utils import Vertex, haversine, PENALTY_FACTOR
+from src.utils import haversine, PENALTY_FACTOR
 
 
 def get_heur(network: nx.Graph) -> Callable:
@@ -15,7 +15,7 @@ def get_heur(network: nx.Graph) -> Callable:
     return heur_distance
 
 
-def find_path(network: nx.Graph, start: Vertex, end: Vertex) -> List[Vertex]:
+def find_path(network: nx.Graph, start: int, end: int) -> List[int]:
     heur_distance = get_heur(network)
     shortest_path = astar_path(network, start, end, heuristic=heur_distance, weight="length")
     return shortest_path

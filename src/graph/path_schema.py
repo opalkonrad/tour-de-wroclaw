@@ -9,7 +9,7 @@ class AttractionNode(BaseModel):
     pos: Tuple[float, float]
 
 
-class Path(BaseModel):
+class GraphPath(BaseModel):
     edges: List[int]
     length: float
 
@@ -17,8 +17,9 @@ class Path(BaseModel):
 class AttractionsPair(BaseModel):
     start: AttractionNode
     end: AttractionNode
-    bike_path: Path
-    other_path: Path
+    bike_path: Optional[GraphPath]
+    safer_bike_path: Optional[GraphPath]
+    other_path: Optional[GraphPath]
 
 class PairsList(BaseModel):
     pairs: List[AttractionsPair]

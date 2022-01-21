@@ -15,14 +15,19 @@ class BikePathType(str, Enum):
     WITHPEDESTRIANS = "droga dla pieszych i rowerów"
 
 
-FULL_BIKE_PATH = [
+WHITE_LIST = [
     BikePathType.BIKELANE,
     BikePathType.CALMFLOW,
-    BikePathType.CONTRAFLOW,
-    BikePathType.CONTRALANE,
+    BikePathType.CANRIDE,
     BikePathType.FULL,
     BikePathType.ONLEVEES,
     BikePathType.THRUPARK,
+    BikePathType.WITHPEDESTRIANS,
+]
+
+BLACK_LIST = [
     BikePathType.WBUS,
-    BikePathType.WITHPEDESTRIANS
+    BikePathType.CONTRAFLOW,
+    BikePathType.CONTRALANE,
+    BikePathType.ROADLINK,
 ]
