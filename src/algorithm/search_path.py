@@ -4,7 +4,7 @@ import networkx as nx
 from networkx.algorithms.shortest_paths.astar import astar_path
 from networkx.classes.function import path_weight
 
-from src.utils import haversine, PENALTY_FACTOR
+from src.utils import PENALTY_FACTOR, haversine
 
 
 def get_heur(network: nx.Graph) -> Callable:
@@ -12,6 +12,7 @@ def get_heur(network: nx.Graph) -> Callable:
         vv1 = network.nodes[v1]["pos"]
         vv2 = network.nodes[v2]["pos"]
         return haversine(*vv1, *vv2)
+
     return heur_distance
 
 

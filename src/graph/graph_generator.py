@@ -57,7 +57,7 @@ class GraphGenerator(AbstractGraphGenerator):
             "picnic_site",
             "theme_park",
             "viewpoint",
-            "zoo"
+            "zoo",
         }
 
     def create_from_osm_lines(self, path: Path) -> nx.Graph:

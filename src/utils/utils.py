@@ -3,7 +3,6 @@ from typing import Any, Dict, List, Tuple
 
 from pyproj import Transformer
 
-
 NORTH_LIM = 51.27
 SOUTH_LIM = 50.94
 WEST_LIM = 16.70

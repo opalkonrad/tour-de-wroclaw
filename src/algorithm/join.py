@@ -16,8 +16,9 @@ def closest_vertex(v1: Tuple[float, float], vertices: List[Vertex]) -> Tuple[Opt
     return closest, min_distance
 
 
-def add_attraction_to_network(attraction: Vertex, new_id: int, closest: Vertex, distance: float,
-                              network: nx.Graph) -> None:
+def add_attraction_to_network(
+    attraction: Vertex, new_id: int, closest: Vertex, distance: float, network: nx.Graph
+) -> None:
     network.add_node(new_id, **attraction[1])
     network.add_edge(new_id, closest[0], length=distance)
 

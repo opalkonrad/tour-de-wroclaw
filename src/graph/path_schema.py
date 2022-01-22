@@ -1,5 +1,6 @@
 from enum import Enum
 from typing import List, Optional, Tuple
+
 from pydantic import BaseModel
 
 
@@ -20,6 +21,7 @@ class AttractionsPair(BaseModel):
     bike_path: Optional[GraphPath]
     safer_bike_path: Optional[GraphPath]
     other_path: Optional[GraphPath]
+
 
 class PairsList(BaseModel):
     pairs: List[AttractionsPair]
